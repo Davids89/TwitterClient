@@ -29,7 +29,7 @@ ext{
     buildToolsVersion = '23.0.2'
     supportLibraryVersion = '23.1.1'
     twitterVersion = '1.12.0@arr'
-    butterknifeVersion = '3.0.0'
+    butterknifeVersion = '6.1.0'
     eventbusVersion = '3.0.0'
     daggerVersion = '2.0.1'
     glideVersion = '3.6.1'
