@@ -52,7 +52,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
-    compile('com.twitter.sdk.android:twitter:2.2.0@aar') {
+    compile('com.twitter.sdk.android:twitter:2.3.0@aar') {
         transitive = true;
     }
 
