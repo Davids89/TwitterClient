@@ -1,0 +1,19 @@
+package com.example.david.twitterclient.images;
+
+import com.example.david.twitterclient.entities.Image;
+
+import java.util.List;
+
+/**
+ * Created by david on 14/12/16.
+ */
+
+public interface ImagesView {
+    void showElements();
+    void hideElements();
+    void showProgress();
+    void hideProgress();
+
+    void onError(String error);
+    void setContent(List<Image> items);
+}
