@@ -51,7 +51,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
         return imageList.size();
     }
 
-    private void setItems(List<Image> newItems){
+    public void setItems(List<Image> newItems){
         imageList.addAll(newItems);
         notifyDataSetChanged();
     }

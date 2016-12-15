@@ -17,23 +17,23 @@ import com.example.david.twitterclient.login.LoginActivity;
 import com.example.david.twitterclient.main.ui.adapters.MainSectionsPagerAdapter;
 import com.twitter.sdk.android.Twitter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class MainActivity extends AppCompatActivity {
 
-    @InjectView(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.tabs)
+    @BindView(R.id.tabs)
     TabLayout tabs;
-    @InjectView(R.id.container)
+    @BindView(R.id.container)
     ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setupAdapter();
     }

@@ -15,23 +15,22 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class LoginActivity extends AppCompatActivity {
 
-    @InjectView(R.id.twitterLoginButton)
-    TwitterLoginButton twitterLoginButton;
-    @InjectView(R.id.container)
-    RelativeLayout container;
+
+    @BindView(R.id.twitterLoginButton) TwitterLoginButton twitterLoginButton;
+    @BindView(R.id.container) RelativeLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
-        if(Twitter.getSessionManager().getActiveSession() != null){
+        if (Twitter.getSessionManager().getActiveSession() != null) {
             navigateToMainScreen();
         }
 

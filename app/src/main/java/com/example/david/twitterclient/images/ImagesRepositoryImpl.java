@@ -4,5 +4,9 @@ package com.example.david.twitterclient.images;
  * Created by david on 15/12/16.
  */
 
-public class ImagesRepositoryImpl {
+public class ImagesRepositoryImpl implements ImagesRepository {
+    @Override
+    public void getImages() {
+
+    }
 }
