@@ -43,7 +43,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
         Image image = imageList.get(position);
         holder.setOnClickListener(image, onItemClickListener);
         holder.txtTweet.setText(image.getTweetText());
-        imageLoader.load(holder.imageMedia, image.getTweeetUrl());
+        imageLoader.load(holder.imageMedia, image.getImageURL());
     }
 
     @Override
