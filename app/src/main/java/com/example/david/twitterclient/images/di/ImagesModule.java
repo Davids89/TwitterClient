@@ -13,6 +13,8 @@ import com.example.david.twitterclient.images.ui.adapters.ImagesAdapter;
 import com.example.david.twitterclient.images.ui.adapters.OnItemClickListener;
 import com.example.david.twitterclient.lib.base.EventBus;
 import com.example.david.twitterclient.lib.base.ImageLoader;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +82,13 @@ public class ImagesModule {
 
     @Provides
     @Singleton
-    CustomTwitterApiClient providesCustomTwitterApiClient(){
-        return new CustomTwitterApiClient();
+    CustomTwitterApiClient providesCustomTwitterApiClient(TwitterSession session){
+        return new CustomTwitterApiClient(session);
+    }
+
+    @Provides
+    @Singleton
+    TwitterSession providesTwitterSession(){
+        return Twitter.getSessionManager().getActiveSession();
     }
 }

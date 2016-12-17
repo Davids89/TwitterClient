@@ -1,12 +1,11 @@
 package com.example.david.twitterclient.images;
 
-import com.example.david.twitterclient.images.ImagesInteractor;
-import com.example.david.twitterclient.images.ImagesPresenter;
 import com.example.david.twitterclient.images.events.ImagesEvent;
 import com.example.david.twitterclient.images.ui.ImagesView;
 import com.example.david.twitterclient.lib.base.EventBus;
 
 import org.greenrobot.eventbus.Subscribe;
+
 
 /**
  * Created by david on 15/12/16.

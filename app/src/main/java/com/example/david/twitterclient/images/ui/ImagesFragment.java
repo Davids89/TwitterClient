@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,16 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.example.david.twitterclient.R;
+import com.example.david.twitterclient.TwitterClientApp;
 import com.example.david.twitterclient.entities.Image;
 import com.example.david.twitterclient.images.ImagesPresenter;
+import com.example.david.twitterclient.images.di.ImagesComponent;
 import com.example.david.twitterclient.images.ui.adapters.ImagesAdapter;
 import com.example.david.twitterclient.images.ui.adapters.OnItemClickListener;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,8 +42,10 @@ public class ImagesFragment extends Fragment implements ImagesView, OnItemClickL
     @BindView(R.id.container)
     FrameLayout container;
 
-    private ImagesPresenter presenter;
-    private ImagesAdapter adapter;
+    @Inject
+    ImagesPresenter presenter;
+    @Inject
+    ImagesAdapter adapter;
 
     public ImagesFragment() {
         // Required empty public constructor
@@ -51,13 +58,28 @@ public class ImagesFragment extends Fragment implements ImagesView, OnItemClickL
         View view = inflater.inflate(R.layout.fragment_content, container, false);
 
         ButterKnife.bind(this, view);
+        setupInjection();
+        setupRecyclerView();
+        presenter.getImageTweets();
         return view;
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setupInjection() {
+        TwitterClientApp app = (TwitterClientApp)getActivity().getApplication();
+        ImagesComponent imagesComponent = app.getImagesComponent(this, this, this);
+        //getImages(fragment, ImageView, OnClick) the fragment implements both
+        imagesComponent.inject(this);
     }
 
     @Override
     public void onResume() {
-        super.onResume();
         presenter.onResume();
+        super.onResume();
     }
 
     @Override

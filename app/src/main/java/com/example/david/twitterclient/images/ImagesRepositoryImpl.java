@@ -4,9 +4,6 @@ import com.example.david.twitterclient.api.CustomTwitterApiClient;
 import com.example.david.twitterclient.entities.Image;
 import com.example.david.twitterclient.images.events.ImagesEvent;
 import com.example.david.twitterclient.lib.base.EventBus;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.MediaEntity;
 import com.twitter.sdk.android.core.models.Tweet;
 
@@ -35,51 +32,54 @@ public class ImagesRepositoryImpl implements ImagesRepository {
 
     @Override
     public void getImages() {
-        Callback<List<Tweet>> callback = new Callback<List<Tweet>>() {
+        Call<List<Tweet>> service = client.getTimeLineService().homeTimeline(TWEET_COUNT, true, true, true, true);
+        service.enqueue(new retrofit2.Callback<List<Tweet>>() {
             @Override
-            public void success(Result<List<Tweet>> result) {
-                List<Image> items = new ArrayList<Image>();
+            public void onResponse(Call<List<Tweet>> call, Response<List<Tweet>> response) {
 
-                for(Tweet tweet : result.data){
-                    if(containsImages(tweet)){
-                        Image tweetModel = new Image();
+                if (response.isSuccessful()) {
+                    List<Tweet> items = response.body();
+                    List<Image> images = new ArrayList<Image>();
+                    for(Tweet tweet : items){
+                        if(containsImages(tweet)){
+                            Image tweetModel = new Image();
 
-                        tweetModel.setId(tweet.idStr);
-                        tweetModel.setFavoriteCount(tweet.favoriteCount);
+                            tweetModel.setId(tweet.idStr);
+                            tweetModel.setFavoriteCount(tweet.favoriteCount);
 
-                        String tweetText = tweet.text;
-                        int index = tweetText.indexOf("http");
-                        if(index > 0){
-                            tweetText = tweetText.substring(0, index);
+                            String tweetText = tweet.text;
+                            int index = tweetText.indexOf("http");
+                            if(index > 0){
+                                tweetText = tweetText.substring(0, index);
+                            }
+
+                            tweetModel.setTweetText(tweetText);
+
+                            MediaEntity currentPhoto = tweet.entities.media.get(0);
+                            String imageUrl = currentPhoto.mediaUrl;
+                            tweetModel.setImageURL(imageUrl);
+
+                            images.add(tweetModel);
                         }
-
-                        tweetModel.setTweetText(tweetText);
-
-                        MediaEntity currentPhoto = tweet.entities.media.get(0);
-                        String imageUrl = currentPhoto.mediaUrl;
-                        tweetModel.setImageURL(imageUrl);
-
-                        items.add(tweetModel);
                     }
+
+                    Collections.sort(images, new Comparator<Image>() {
+                        @Override
+                        public int compare(Image image, Image t1) {
+                            return t1.getFavoriteCount() - image.getFavoriteCount();
+                        }
+                    });
+                    post(images);
+                } else {
+                    post(response.errorBody().toString());
                 }
-
-                Collections.sort(items, new Comparator<Image>() {
-                    @Override
-                    public int compare(Image image, Image t1) {
-                        return t1.getFavoriteCount() - image.getFavoriteCount();
-                    }
-                });
-
-                post(items);
             }
 
             @Override
-            public void failure(TwitterException exception) {
-                post(exception.getLocalizedMessage());
+            public void onFailure(Call<List<Tweet>> call, Throwable t) {
+                post(t.getLocalizedMessage());
             }
-        };
-
-        client.getTimeLineService().homeTimeline(TWEET_COUNT, true, true, true, true, callback);
+        });
     }
 
     private boolean containsImages(Tweet tweet){
