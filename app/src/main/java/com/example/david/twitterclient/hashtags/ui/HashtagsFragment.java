@@ -1,4 +1,4 @@
-package com.example.david.twitterclient.hashtags;
+package com.example.david.twitterclient.hashtags.ui;
 
 
 import android.os.Bundle;

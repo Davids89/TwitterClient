@@ -72,7 +72,7 @@ public class ImagesFragment extends Fragment implements ImagesView, OnItemClickL
     private void setupInjection() {
         TwitterClientApp app = (TwitterClientApp)getActivity().getApplication();
         ImagesComponent imagesComponent = app.getImagesComponent(this, this, this);
-        //getImages(fragment, ImageView, OnClick) the fragment implements both
+        //getHashtags(fragment, ImageView, OnClick) the fragment implements both
         imagesComponent.inject(this);
     }
 
