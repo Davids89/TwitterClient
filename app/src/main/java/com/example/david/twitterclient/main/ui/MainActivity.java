@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.david.twitterclient.R;
-import com.example.david.twitterclient.hashtags.HashtagsFragment;
+import com.example.david.twitterclient.hashtags.ui.HashtagsFragment;
 import com.example.david.twitterclient.images.ui.ImagesFragment;
 import com.example.david.twitterclient.login.LoginActivity;
 import com.example.david.twitterclient.main.ui.adapters.MainSectionsPagerAdapter;
