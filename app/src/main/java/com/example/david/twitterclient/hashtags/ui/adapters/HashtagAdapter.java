@@ -1,5 +1,6 @@
 package com.example.david.twitterclient.hashtags.ui.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.example.david.twitterclient.entities.Hashtag;
 import com.example.david.twitterclient.entities.Image;
 import com.example.david.twitterclient.lib.base.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,37 +25,36 @@ import butterknife.ButterKnife;
 
 public class HashtagAdapter extends RecyclerView.Adapter<HashtagAdapter.ViewHolder> {
 
-    private List<Hashtag> imageList;
-    private ImageLoader imageLoader;
-    private OnItemClickListener onItemClickListener;
+    private List<Hashtag> hashtags;
+    private com.example.david.twitterclient.hashtags.ui.adapters.OnItemClickListener onItemClickListener;
 
-    public HashtagAdapter(List<Hashtag> imageList, OnItemClickListener onItemClickListener) {
-        this.imageList = imageList;
+    public HashtagAdapter(List<Hashtag> hashtags, OnItemClickListener onItemClickListener) {
+        this.hashtags = hashtags;
         this.onItemClickListener = onItemClickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_images, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, parent.getContext());
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        /*Image image = imageList.get(position);
-        holder.setOnClickListener(image, onItemClickListener);
-        holder.txtTweet.setText(image.getTweetText());
-        imageLoader.load(holder.imageMedia, image.getImageURL());*/
+        Hashtag tweet = hashtags.get(position);
+        holder.setOnClickListener(tweet, onItemClickListener);
+        holder.txtTweet.setText(tweet.getTweetText());
+        holder.setItems(tweet.getHashtags());
     }
 
     @Override
     public int getItemCount() {
-        return imageList.size();
+        return hashtags.size();
     }
 
-    public void setItems(List<Image> newItems){
-        /*imageList.addAll(newItems);
-        notifyDataSetChanged();*/
+    public void setItems(List<Hashtag> newItems){
+        hashtags.addAll(newItems);
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -61,22 +62,37 @@ public class HashtagAdapter extends RecyclerView.Adapter<HashtagAdapter.ViewHold
         @BindView(R.id.txtTweet)
         TextView txtTweet;
 
-        @BindView(R.id.imgMedia)
-        ImageView imageMedia;
+        @BindView(R.id.recyclerView)
+        RecyclerView recyclerView;
 
         private View view;
+        private HashtagListAdapter adapter;
+        private ArrayList<String> items;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, Context context) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.view = itemView;
+
+            items = new ArrayList<String>();
+            adapter = new HashtagListAdapter(items);
+
+            CustomGridLayoutManager layoutManager = new CustomGridLayoutManager(context, 3);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
         }
 
-        public void setOnClickListener(final Image image, final OnItemClickListener listener){
+        public void setItems(List<String> newItems){
+            items.clear();
+            items.addAll(newItems);
+            adapter.notifyDataSetChanged();
+        }
+
+        public void setOnClickListener(final Hashtag tweet, final OnItemClickListener listener){
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClick(image);
+                    listener.onItemClick(tweet);
                 }
             });
         }
