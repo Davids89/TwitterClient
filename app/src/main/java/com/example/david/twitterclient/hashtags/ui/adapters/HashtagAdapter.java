@@ -35,7 +35,7 @@ public class HashtagAdapter extends RecyclerView.Adapter<HashtagAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_images, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_hashtags, parent, false);
         return new ViewHolder(view, parent.getContext());
     }
 
@@ -62,7 +62,7 @@ public class HashtagAdapter extends RecyclerView.Adapter<HashtagAdapter.ViewHold
         @BindView(R.id.txtTweet)
         TextView txtTweet;
 
-        @BindView(R.id.recyclerView)
+        @BindView(R.id.hashtagRecyclerView)
         RecyclerView recyclerView;
 
         private View view;

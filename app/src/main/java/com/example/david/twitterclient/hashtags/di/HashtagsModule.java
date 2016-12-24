@@ -46,37 +46,37 @@ public class HashtagsModule {
 
     @Provides
     @Singleton
+    List<Hashtag> providesHashtagList(){
+        return new ArrayList<Hashtag>();
+    }
+
+    @Provides
+    @Singleton
     OnItemClickListener providesOnItemClickListener(){
         return this.clickListener;
     }
 
     @Provides
     @Singleton
-    List<Image> providesImageList(){
-        return new ArrayList<Image>();
-    }
-
-    @Provides
-    @Singleton
-    HashtagsPresenter providesImagesPresenter(EventBus eventBus, HashtagsView view, HashtagsInteractor interactor){
+    HashtagsPresenter providesHastagPresenter(EventBus eventBus, HashtagsView view, HashtagsInteractor interactor){
         return new HashtagsPresenterImpl(eventBus, view, interactor);
     }
 
     @Provides
     @Singleton
-    HashtagsView providesImagesView(){
+    HashtagsView providesHashtagView(){
         return this.view;
     }
 
     @Provides
     @Singleton
-    HashtagsInteractor providesImagesInteractor(HashtagsRepository repository){
+    HashtagsInteractor providesHashtagInteractor(HashtagsRepository repository){
         return new HashtagsInteractorImpl(repository);
     }
 
     @Provides
     @Singleton
-    HashtagsRepository providesImagesRepository(EventBus eventBus, CustomTwitterApiClient client){
+    HashtagsRepository providesHashtagRepository(EventBus eventBus, CustomTwitterApiClient client){
         return new HashtagsRepositoryImpl(eventBus, client);
     }
 

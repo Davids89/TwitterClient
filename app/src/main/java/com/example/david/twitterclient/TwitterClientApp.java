@@ -11,7 +11,6 @@ import com.example.david.twitterclient.images.di.DaggerImagesComponent;
 import com.example.david.twitterclient.images.di.ImagesComponent;
 import com.example.david.twitterclient.images.di.ImagesModule;
 import com.example.david.twitterclient.images.ui.ImagesView;
-import com.example.david.twitterclient.images.ui.adapters.OnItemClickListener;
 import com.example.david.twitterclient.lib.di.LibsModule;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
